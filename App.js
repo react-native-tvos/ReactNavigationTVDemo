@@ -9,7 +9,7 @@ import {
   Text,
   TVMenuControl,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {useIsFocused, NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 function Button({title, onPress, onFocus}) {
@@ -24,7 +24,8 @@ function Button({title, onPress, onFocus}) {
 }
 
 function HomeScreen({navigation}) {
-  return (
+  const isFocused = useIsFocused();
+  return isFocused ? (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
       <Button
@@ -33,10 +34,11 @@ function HomeScreen({navigation}) {
         title="Go to Screen 1"
       />
     </View>
-  );
+  ) : null;
 }
 
 function Screen({route, navigation}) {
+  const isFocused = useIsFocused();
   const index = parseInt(route.name.substring(6, 7), 10);
   React.useEffect(() => {
     TVMenuControl.enableTVMenuKey();
@@ -48,7 +50,7 @@ function Screen({route, navigation}) {
   });
   const nextIndex = index + 1;
   const buttonTitle = `Go to Screen ${nextIndex}`;
-  return (
+  return isFocused ? (
     <View style={styles.container}>
       <Text style={styles.title}>{`Screen ${index}`}</Text>
       <View style={styles.buttoncontainer}>
@@ -78,7 +80,7 @@ function Screen({route, navigation}) {
         />
       ) : null}
     </View>
-  );
+  ) : null;
 }
 const Stack = createStackNavigator();
 
