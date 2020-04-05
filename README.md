@@ -2,6 +2,8 @@
 
 Demonstrates React Navigation running on Apple TV.
 
+Currently using this repo to test fixes for a [focus engine issue](https://github.com/react-native-community/react-native-tvos/issues/43) in `react-native-tvos`.
+
 - Clone this repo
 - Change to the repo directory
 - `yarn`
