@@ -9,36 +9,67 @@ import {
   Text,
   TVMenuControl,
 } from 'react-native';
-import {useIsFocused, NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
-function Button({title, onPress, onFocus}) {
+function Button({title, onPress, onFocus, isTVSelectable}) {
   return (
     <TouchableOpacity
       hasTVPreferredFocus={true}
       onPress={() => onPress()}
-      onFocus={() => onFocus()}>
+      onFocus={() => onFocus()}
+      isTVSelectable={isTVSelectable}>
       <Text style={styles.button}>{title}</Text>
     </TouchableOpacity>
   );
 }
 
 function HomeScreen({navigation}) {
-  const isFocused = useIsFocused();
-  return isFocused ? (
+  const [isFocused, setIsFocused] = React.useState(false);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsFocused(true);
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setIsFocused(false);
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
       <Button
+        isTVSelectable={isFocused}
         onPress={() => navigation.navigate('Screen1')}
         onFocus={() => console.log('Focus: Home')}
         title="Go to Screen 1"
       />
     </View>
-  ) : null;
+  );
 }
 
 function Screen({route, navigation}) {
-  const isFocused = useIsFocused();
+  const [isFocused, setIsFocused] = React.useState(false);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setIsFocused(true);
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setIsFocused(false);
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
   const index = parseInt(route.name.substring(6, 7), 10);
   React.useEffect(() => {
     TVMenuControl.enableTVMenuKey();
@@ -50,21 +81,24 @@ function Screen({route, navigation}) {
   });
   const nextIndex = index + 1;
   const buttonTitle = `Go to Screen ${nextIndex}`;
-  return isFocused ? (
+  return (
     <View style={styles.container}>
       <Text style={styles.title}>{`Screen ${index}`}</Text>
       <View style={styles.buttoncontainer}>
         <Button
+          isTVSelectable={isFocused}
           onPress={() => {}}
           onFocus={() => console.log(`Focus: ${route.name}, Button 1`)}
           title="Button 1"
         />
         <Button
+          isTVSelectable={isFocused}
           onPress={() => {}}
           onFocus={() => console.log(`Focus: ${route.name}, Button 2`)}
           title="Button 2"
         />
         <Button
+          isTVSelectable={isFocused}
           onPress={() => {}}
           onFocus={() => console.log(`Focus: ${route.name}, Button 3`)}
           title="Button 3"
@@ -72,6 +106,7 @@ function Screen({route, navigation}) {
       </View>
       {index < 3 ? (
         <Button
+          isTVSelectable={isFocused}
           onPress={() => navigation.navigate(`Screen${nextIndex}`)}
           onFocus={() =>
             console.log(`Focus: ${route.name}, ${index}, nav button`)
@@ -80,7 +115,7 @@ function Screen({route, navigation}) {
         />
       ) : null}
     </View>
-  ) : null;
+  );
 }
 const Stack = createStackNavigator();
 

@@ -5605,10 +5605,9 @@ react-native-safe-area-context@^0.7.3:
   dependencies:
     debounce "^1.2.0"
 
-"react-native@npm:react-native-tvos@0.61.5-0":
+"react-native@https://github.com/react-native-community/react-native-tvos#dlowder/navigation-fix":
   version "0.61.5-0"
-  resolved "https://registry.yarnpkg.com/react-native-tvos/-/react-native-tvos-0.61.5-0.tgz#2e14ca5520c2a6151cc693c707f835c7fc1ad540"
-  integrity sha512-17aRel9/O5nfjbkOdLipHG99fsBzSZffkedbIqns7Lta2NMnZP3oBbPEBcXqui49nDLsuxWy9NPlYY3L6LjxSg==
+  resolved "https://github.com/react-native-community/react-native-tvos#b6bea1947ea9b6db75c9f0cb6f3aa64201a5df16"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@react-native-community/cli" "^3.0.0"
