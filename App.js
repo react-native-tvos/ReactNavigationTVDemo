@@ -15,7 +15,6 @@ import {createStackNavigator} from '@react-navigation/stack';
 function Button({title, onPress, onFocus, isTVSelectable}) {
   return (
     <TouchableOpacity
-      hasTVPreferredFocus={true}
       onPress={() => onPress()}
       onFocus={() => onFocus()}
       isTVSelectable={isTVSelectable}>
@@ -84,7 +83,7 @@ function Screen({route, navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{`Screen ${index}`}</Text>
-      <View style={styles.buttoncontainer}>
+      <View style={styles.buttonContainer}>
         <Button
           isTVSelectable={isFocused}
           onPress={() => {}}
@@ -123,21 +122,25 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={headerOptions('Home')}
+        />
         <Stack.Screen
           name="Screen1"
           component={Screen}
-          options={{title: 'Screen 1'}}
+          options={headerOptions('Screen 1')}
         />
         <Stack.Screen
           name="Screen2"
           component={Screen}
-          options={{title: 'Screen 2'}}
+          options={headerOptions('Screen 2')}
         />
         <Stack.Screen
           name="Screen3"
           component={Screen}
-          options={{title: 'Screen 3'}}
+          options={headerOptions('Screen 3')}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -145,6 +148,21 @@ function App() {
 }
 
 export default App;
+
+const headerOptions = (title) => {
+  return {
+    title,
+    headerBackTitleStyle: styles.headerBackTitle,
+    headerStyle: styles.header,
+    headerTitleContainerStyle: styles.headerTitleContainer,
+    headerTitleStyle: styles.headerTitle,
+  };
+};
+
+const colors = {
+  blue: '#0070d2',
+  white: '#ffffff',
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -155,12 +173,27 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 50,
   },
+  header: {
+    height: 150,
+    backgroundColor: colors.blue,
+  },
+  headerTitle: {
+    fontSize: 50,
+    color: colors.white,
+  },
+  headerBackTitle: {
+    fontSize: 30,
+    color: colors.white,
+  },
+  headerTitleContainer: {
+    marginTop: 0,
+  },
   button: {
     fontSize: 50,
-    color: '#0000FF',
+    color: colors.blue,
     margin: 50,
   },
-  buttoncontainer: {
+  buttonContainer: {
     flexDirection: 'row',
     margin: 100,
   },
