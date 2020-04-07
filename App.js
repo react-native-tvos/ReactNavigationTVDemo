@@ -1,6 +1,9 @@
 /*
+ * Demo app showing how react-navigation works with Apple TV.
+ *
  * @flow
  */
+
 import * as React from 'react';
 import {
   TouchableOpacity,
@@ -12,6 +15,11 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
+/**
+ * We use this Button component instead of the one from react-native,
+ * because we need to pass in `isTVSelectable` and have more control
+ * over styling.
+ */
 function Button({title, onPress, onFocus, isTVSelectable}) {
   return (
     <TouchableOpacity
@@ -27,28 +35,36 @@ Button.defaultProps = {
   isTVSelectable: true,
 };
 
+/**
+ * The home screen.
+ */
 function HomeScreen({navigation}) {
+  // Set up focus and blur listeners to set our state properly;
+  // isFocused === true when this screen is shown.
   const [isFocused, setIsFocused] = React.useState(false);
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setIsFocused(true);
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => {
-      setIsFocused(false);
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+  React.useEffect(
+    () =>
+      navigation.addListener('focus', () => {
+        setIsFocused(true);
+      }),
+    [navigation],
+  );
+  React.useEffect(
+    () =>
+      navigation.addListener('blur', () => {
+        setIsFocused(false);
+      }),
+    [navigation],
+  );
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Home Screen</Text>
       <Button
-        isTVSelectable={isFocused}
+        isTVSelectable={
+          isFocused
+        } /* button is removed from focus engine
+                                      when screen is not visible */
         onPress={() => navigation.navigate('Screen1')}
         onFocus={() => console.log('Focus: Home')}
         title="Go to Screen 1"
@@ -57,23 +73,34 @@ function HomeScreen({navigation}) {
   );
 }
 
+/**
+ * Component for other screens in the stack navigator.
+ */
 function Screen({route, navigation}) {
+  // Same code as above for detecting when screens are visible
   const [isFocused, setIsFocused] = React.useState(false);
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setIsFocused(true);
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('blur', () => {
-      setIsFocused(false);
-    });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
-  }, [navigation]);
+  React.useEffect(
+    () =>
+      navigation.addListener('focus', () => {
+        setIsFocused(true);
+      }),
+    [navigation],
+  );
+  React.useEffect(
+    () =>
+      navigation.addListener('blur', () => {
+        setIsFocused(false);
+      }),
+    [navigation],
+  );
+
+  // Hacky code to get which screen this is
   const index = parseInt(route.name.substring(6, 7), 10);
+
+  // Enable the menu key when this screen appears.
+  // In the cleanup method, disable the menu key again if we are
+  // navigating back to the home screen; this way the menu key
+  // will exit the app properly if pressed in the home screen.
   React.useEffect(() => {
     TVMenuControl.enableTVMenuKey();
     return () => {
@@ -82,12 +109,14 @@ function Screen({route, navigation}) {
       }
     };
   });
+
   const nextIndex = index + 1;
   const buttonTitle = `Go to Screen ${nextIndex}`;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{`Screen ${index}`}</Text>
       <View style={styles.buttonContainer}>
+        {/* Put some buttons on the screen just for fun */}
         <Button
           isTVSelectable={isFocused}
           onPress={() => {}}
@@ -107,7 +136,7 @@ function Screen({route, navigation}) {
           title="Button 3"
         />
       </View>
-      {index < 3 ? (
+      {index < 3 /* Don't push more than 3 screens on the stack */ ? (
         <Button
           isTVSelectable={isFocused}
           onPress={() => navigation.navigate(`Screen${nextIndex}`)}
@@ -120,8 +149,38 @@ function Screen({route, navigation}) {
     </View>
   );
 }
+
+/**
+ * Construct the options for the navigation header.
+ */
+const headerOptions = (title) => {
+  return {
+    title,
+    headerBackTitleStyle: styles.headerBackTitle,
+    headerStyle: styles.header,
+    headerTitleContainerStyle: styles.headerTitleContainer,
+    headerTitleStyle: styles.headerTitle,
+    // Demo button for the upper right that doesn't do anything.
+    // It is styled to invisibly extend close to the center of the screen,
+    // so that it will be reachable by the tvOS focus engine without having
+    // to implement a TVFocusGuideView.
+    headerRight: () => (
+      <TouchableOpacity
+        style={styles.infoButtonContainer}
+        onPress={() => alert('Info')} /* eslint-disable-line no-alert */
+        onFocus={() => console.log('Focus: Info button')}>
+        <View style={styles.spacer} />
+        <Text style={styles.headerBackTitle}>Info</Text>
+      </TouchableOpacity>
+    ),
+  };
+};
+
 const Stack = createStackNavigator();
 
+/**
+ * Standard construction of a stack navigator.
+ */
 function App() {
   return (
     <NavigationContainer>
@@ -152,25 +211,6 @@ function App() {
 }
 
 export default App;
-
-const headerOptions = (title) => {
-  return {
-    title,
-    headerBackTitleStyle: styles.headerBackTitle,
-    headerStyle: styles.header,
-    headerTitleContainerStyle: styles.headerTitleContainer,
-    headerTitleStyle: styles.headerTitle,
-    headerRight: () => (
-      <TouchableOpacity
-        style={styles.infoButtonContainer}
-        onPress={() => alert('Info')} /* eslint-disable-line no-alert */
-        onFocus={() => console.log('Focus: Info button')}>
-        <View style={styles.spacer} />
-        <Text style={styles.headerBackTitle}>Info</Text>
-      </TouchableOpacity>
-    ),
-  };
-};
 
 const colors = {
   blue: '#0070d2',
