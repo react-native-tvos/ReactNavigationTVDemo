@@ -23,6 +23,10 @@ function Button({title, onPress, onFocus, isTVSelectable}) {
   );
 }
 
+Button.defaultProps = {
+  isTVSelectable: true,
+};
+
 function HomeScreen({navigation}) {
   const [isFocused, setIsFocused] = React.useState(false);
   React.useEffect(() => {
@@ -156,6 +160,15 @@ const headerOptions = (title) => {
     headerStyle: styles.header,
     headerTitleContainerStyle: styles.headerTitleContainer,
     headerTitleStyle: styles.headerTitle,
+    headerRight: () => (
+      <TouchableOpacity
+        style={styles.infoButtonContainer}
+        onPress={() => alert('Info')} /* eslint-disable-line no-alert */
+        onFocus={() => console.log('Focus: Info button')}>
+        <View style={styles.spacer} />
+        <Text style={styles.headerBackTitle}>Info</Text>
+      </TouchableOpacity>
+    ),
   };
 };
 
@@ -182,7 +195,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   headerBackTitle: {
-    fontSize: 30,
+    fontSize: 40,
     color: colors.white,
   },
   headerTitleContainer: {
@@ -196,5 +209,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     margin: 100,
+  },
+  infoButtonContainer: {
+    backgroundColor: 'transparent',
+    width: 700,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  spacer: {
+    flex: 1,
   },
 });
