@@ -16,6 +16,9 @@
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2D63E060243FD8CF002A9E6B /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		2D63E065243FDB5A002A9E6B /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2D63E064243FDB59002A9E6B /* assets */; };
+		2D63E066243FDB5E002A9E6B /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 2D63E064243FDB59002A9E6B /* assets */; };
 		2DCD954D1E0B4F2C00145EB5 /* ReactNavigationTVDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ReactNavigationTVDemoTests.m */; };
 		4B128873D68ECE7D835B8746 /* libPods-ReactNavigationTVDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7BFA11DDC3761A1BF43F3E /* libPods-ReactNavigationTVDemo.a */; };
 		658E78F6FE0A695D1332E315 /* libPods-ReactNavigationTVDemo-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CBDB9B5D6378CA5E7C0AFB /* libPods-ReactNavigationTVDemo-tvOSTests.a */; };
@@ -56,6 +59,7 @@
 		2CB2B72E6B6D766DE80F5F8B /* Pods-ReactNavigationTVDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNavigationTVDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-ReactNavigationTVDemoTests/Pods-ReactNavigationTVDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ReactNavigationTVDemo-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ReactNavigationTVDemo-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ReactNavigationTVDemo-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ReactNavigationTVDemo-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2D63E064243FDB59002A9E6B /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../bundled_assets/assets; sourceTree = "<group>"; };
 		406F7F943B821670DCC40DF3 /* Pods-ReactNavigationTVDemo-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNavigationTVDemo-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ReactNavigationTVDemo-tvOSTests/Pods-ReactNavigationTVDemo-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		60CFA7058CF43C4429F07192 /* libPods-ReactNavigationTVDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNavigationTVDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88B8350F549ABBB9F84588D9 /* libPods-ReactNavigationTVDemo-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactNavigationTVDemo-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +129,7 @@
 		13B07FAE1A68108700A75B9A /* ReactNavigationTVDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2D63E064243FDB59002A9E6B /* assets */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -194,7 +199,6 @@
 				2CB2B72E6B6D766DE80F5F8B /* Pods-ReactNavigationTVDemoTests.debug.xcconfig */,
 				C0F98E8DFD093E3F5CA88C41 /* Pods-ReactNavigationTVDemoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -308,6 +312,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -336,6 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D63E065243FDB5A002A9E6B /* assets in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -345,7 +351,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D63E066243FDB5E002A9E6B /* assets in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				2D63E060243FD8CF002A9E6B /* main.jsbundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,7 +672,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 00BCB20C709BE31513BB09DE /* Pods-ReactNavigationTVDemo-tvOS.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "react-logo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -692,7 +700,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9463049FA5DA0D7187061D1B /* Pods-ReactNavigationTVDemo-tvOS.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "react-logo";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
