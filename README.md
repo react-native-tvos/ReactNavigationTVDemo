@@ -7,6 +7,7 @@ Currently using this repo to test fixes for a [focus engine issue](https://githu
 - Clone this repo
 - Change to the repo directory
 - `yarn`
+- `yarn run bundle_ios` or `yarn run bundle_ios_dev`
 - `cd ios; pod install; cd ..`
 - `open ios/ReactNavigationTVDemo.xcworkspace`
 - Build the tvOS target
