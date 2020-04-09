@@ -18,11 +18,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 /**
  * We use this Button component instead of the one from react-native,
  * because we need to pass in `isTVSelectable` and have more control
- * over styling.
+ * over styling.  We also use magnification instead of opacity to highlight
+ * which button is focused.
  */
 function Button({title, onPress, onFocus, isTVSelectable}) {
   return (
     <TouchableOpacity
+      tvParallaxProperties={{magnification: 1.2}}
+      activeOpacity={1.0}
       onPress={() => onPress()}
       onFocus={() => onFocus()}
       isTVSelectable={isTVSelectable}>
@@ -34,6 +37,38 @@ function Button({title, onPress, onFocus, isTVSelectable}) {
 Button.defaultProps = {
   isTVSelectable: true,
 };
+
+/**
+ * Demo button for the upper right that doesn't do anything.
+ * It is styled to invisibly extend close to the center of the screen,
+ * so that it will be reachable by the tvOS focus engine without having
+ * to implement a TVFocusGuideView.  We use tint instead of magnification
+ * or opacity to highlight this button when focused.
+ */
+function InfoButton() {
+  const [infoButtonFocused, setInfoButtonFocused] = React.useState(false);
+  return (
+    <TouchableOpacity
+      activeOpacity={1.0}
+      style={styles.infoButtonContainer}
+      onPress={() => alert('Info')} /* eslint-disable-line no-alert */
+      onFocus={() => {
+        console.log('Focus: Info button');
+        setInfoButtonFocused(true);
+      }}
+      onBlur={() => setInfoButtonFocused(false)}>
+      <View style={styles.spacer} />
+      <Text
+        style={
+          infoButtonFocused
+            ? styles.headerBackTitleFocused
+            : styles.headerBackTitle
+        }>
+        Info
+      </Text>
+    </TouchableOpacity>
+  );
+}
 
 /**
  * The home screen.
@@ -153,6 +188,9 @@ function Screen({route, navigation}) {
 /**
  * Construct the options for the navigation header.
  */
+
+let infoButtonFocused = false;
+
 const headerOptions = (title) => {
   return {
     title,
@@ -160,19 +198,7 @@ const headerOptions = (title) => {
     headerStyle: styles.header,
     headerTitleContainerStyle: styles.headerTitleContainer,
     headerTitleStyle: styles.headerTitle,
-    // Demo button for the upper right that doesn't do anything.
-    // It is styled to invisibly extend close to the center of the screen,
-    // so that it will be reachable by the tvOS focus engine without having
-    // to implement a TVFocusGuideView.
-    headerRight: () => (
-      <TouchableOpacity
-        style={styles.infoButtonContainer}
-        onPress={() => alert('Info')} /* eslint-disable-line no-alert */
-        onFocus={() => console.log('Focus: Info button')}>
-        <View style={styles.spacer} />
-        <Text style={styles.headerBackTitle}>Info</Text>
-      </TouchableOpacity>
-    ),
+    headerRight: () => <InfoButton />,
   };
 };
 
@@ -215,6 +241,7 @@ export default App;
 const colors = {
   blue: '#0070d2',
   white: '#ffffff',
+  yellow: '#ffdd00',
 };
 
 const styles = StyleSheet.create({
@@ -237,6 +264,10 @@ const styles = StyleSheet.create({
   headerBackTitle: {
     fontSize: 40,
     color: colors.white,
+  },
+  headerBackTitleFocused: {
+    fontSize: 40,
+    color: colors.yellow,
   },
   headerTitleContainer: {
     marginTop: 0,
