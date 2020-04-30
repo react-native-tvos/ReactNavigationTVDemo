@@ -11,6 +11,7 @@ import {
   View,
   Text,
   TVMenuControl,
+  Platform,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -25,7 +26,7 @@ function Button({title, onPress, onFocus, isTVSelectable}) {
   return (
     <TouchableOpacity
       tvParallaxProperties={{magnification: 1.2}}
-      activeOpacity={1.0}
+      activeOpacity={Platform.isTVOS ? 1.0 : 0.5}
       onPress={() => onPress()}
       onFocus={() => onFocus()}
       isTVSelectable={isTVSelectable}>
@@ -244,6 +245,8 @@ const colors = {
   yellow: '#ffdd00',
 };
 
+const scale = Platform.isTVOS ? 1.0 : 0.5;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -251,39 +254,39 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 50,
+    fontSize: 50*scale,
   },
   header: {
-    height: 150,
+    height: 150*scale,
     backgroundColor: colors.blue,
   },
   headerTitle: {
-    fontSize: 50,
+    fontSize: 50*scale,
     color: colors.white,
   },
   headerBackTitle: {
-    fontSize: 40,
+    fontSize: 40*scale,
     color: colors.white,
   },
   headerBackTitleFocused: {
-    fontSize: 40,
+    fontSize: 40*scale,
     color: colors.yellow,
   },
   headerTitleContainer: {
     marginTop: 0,
   },
   button: {
-    fontSize: 50,
+    fontSize: 50*scale,
     color: colors.blue,
-    margin: 50,
+    margin: 50*scale,
   },
   buttonContainer: {
     flexDirection: 'row',
-    margin: 100,
+    margin: 100*scale,
   },
   infoButtonContainer: {
     backgroundColor: 'transparent',
-    width: 700,
+    width: 700*scale,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
