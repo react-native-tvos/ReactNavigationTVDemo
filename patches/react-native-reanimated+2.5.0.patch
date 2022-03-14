@@ -1,0 +1,78 @@
+diff --git a/node_modules/react-native-reanimated/RNReanimated.podspec b/node_modules/react-native-reanimated/RNReanimated.podspec
+index 801a665..a03cc13 100644
+--- a/node_modules/react-native-reanimated/RNReanimated.podspec
++++ b/node_modules/react-native-reanimated/RNReanimated.podspec
+@@ -91,7 +97,7 @@ Pod::Spec.new do |s|
+   s.dependency 'React-Core'
+   s.dependency 'React-CoreModules'
+   s.dependency 'React-Core/DevSupport'
+-  s.dependency 'React-RCTActionSheet'
++  # s.dependency 'React-RCTActionSheet'
+   s.dependency 'React-RCTNetwork'
+   s.dependency 'React-RCTAnimation'
+   s.dependency 'React-RCTLinking'
+diff --git a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.h b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.h
+index 794a293..ea27cdc 100644
+--- a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.h
++++ b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.h
+@@ -1,12 +1,17 @@
++#if !TARGET_OS_TV
+ #import <CoreMotion/CoreMotion.h>
++#endif
++
+ #import "ReanimatedSensorType.h"
+ 
+ @interface ReanimatedSensor : NSObject {
++#if !TARGET_OS_TV
+   ReanimatedSensorType _sensorType;
+   double _interval;
+   double _lastTimestamp;
+   CMMotionManager *_motionManager;
+   void (^_setter)(double[]);
++#endif
+ }
+ 
+ - (instancetype)init:(ReanimatedSensorType)sensorType interval:(int)interval setter:(void (^)(double[]))setter;
+diff --git a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.m b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.m
+index b9ab468..380fa63 100644
+--- a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.m
++++ b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensor.m
+@@ -2,6 +2,22 @@
+ 
+ @implementation ReanimatedSensor
+ 
++#if TARGET_OS_TV
++
++- (instancetype)init:(ReanimatedSensorType)sensorType interval:(int)interval setter:(void (^)(double[]))setter {
++  self = [super init];
++  return self;
++}
++- (bool)initialize { return true; }
++- (bool)initializeGyroscope { return true; }
++- (bool)initializeAccelerometer { return true; }
++- (bool)initializeGravity { return true; }
++- (bool)initializeMagnetometer { return true; }
++- (bool)initializeOrientation { return true; }
++- (void)cancel {}
++
++#else
++
+ - (instancetype)init:(ReanimatedSensorType)sensorType interval:(int)interval setter:(void (^)(double[]))setter
+ {
+   self = [super init];
+@@ -166,4 +182,6 @@
+   }
+ }
+ 
++#endif // TARGET_OS_TV
++
+ @end
+diff --git a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensorContainer.h b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensorContainer.h
+index 3208439..743e50d 100644
+--- a/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensorContainer.h
++++ b/node_modules/react-native-reanimated/ios/sensor/ReanimatedSensorContainer.h
+@@ -1,4 +1,3 @@
+-#import <CoreMotion/CoreMotion.h>
+ #import "ReanimatedSensorType.h"
+ 
+ @interface ReanimatedSensorContainer : NSObject {
